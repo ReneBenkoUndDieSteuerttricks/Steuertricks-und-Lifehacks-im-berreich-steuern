@@ -34,6 +34,12 @@
                 transform: translateX(0);
             }
         }
+        @keyframes slideOut {
+            to {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+        }
         .arrow {
             position: absolute;
             width: 0;
@@ -41,6 +47,7 @@
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
             border-top: 10px solid red;
+            cursor: pointer;
             z-index: 10;
         }
         .highlight {
@@ -91,6 +98,7 @@
                 arrow1.className = "arrow";
                 arrow1.style.left = "70px";
                 arrow1.style.top = "70px";
+                arrow1.onclick = () => handleArrowClick('text2'); // Event-Listener zum Pfeil hinzufügen
                 canvas.appendChild(arrow1);
                 
                 const highlight1 = document.createElement("div");
@@ -122,6 +130,7 @@
                 arrow2.className = "arrow";
                 arrow2.style.left = "100px";
                 arrow2.style.top = "130px";
+                arrow2.onclick = () => handleArrowClick('text3'); // Event-Listener zum Pfeil hinzufügen
                 canvas.appendChild(arrow2);
 
                 const highlight2 = document.createElement("div");
@@ -144,6 +153,7 @@
                 });
 
                 const text3 = document.createElement("div");
+                text3.id = "text4";
                 text3.className = "text-box";
                 text3.style.left = "100px";
                 text3.style.top = "250px";
@@ -153,6 +163,24 @@
 
                 step++;
             }
+        }
+
+        // Funktion zum Zurückfahren der Texte
+        function handleArrowClick(textId) {
+            const textElement = document.getElementById(textId);
+            textElement.style.animation = 'slideOut 1s forwards'; // Text nach rechts verschwinden lassen
+            
+            // Optional: Pfeil und Highlight entfernen
+            const arrowElements = document.querySelectorAll(`.arrow`);
+            arrowElements.forEach(arrow => {
+                arrow.remove();
+            });
+            
+            // Optional: Nächsten Schritt zurücksetzen, um den Text wieder erscheinen zu lassen
+            setTimeout(() => {
+                textElement.remove(); // Entfernt den Text aus dem Canvas
+                step--; // Geht einen Schritt zurück
+            }, 1000); // Nach der Animationszeit (1 Sekunde)
         }
     </script>
 </body>
