@@ -25,6 +25,20 @@
             border: 1px solid black;
             padding: 5px;
         }
+        .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid red;
+        }
+        .highlight {
+            position: absolute;
+            border: 2px solid yellow;
+            padding: 5px;
+            box-sizing: border-box;
+        }
         img {
             max-width: 100%;
             height: auto;
@@ -50,7 +64,7 @@
             const y = event.clientY - rect.top;
             const canvas = document.getElementById("canvas");
             
-            // Ein einfacher Klickbereich, um die Schritte zu aktivieren
+            // Schritt 1: Text anzeigen und Hinweis hinzufügen
             if (step === 0) {
                 if (!document.getElementById("text2")) {
                     const text1 = document.createElement("div");
@@ -61,9 +75,26 @@
                     text1.innerText = "1. Was ist Steuerhinterziehung?";
                     canvas.appendChild(text1);
                 }
+
+                // Pfeil und Highlight hinzufügen, um auf den nächsten Klickbereich hinzuweisen
+                const arrow1 = document.createElement("div");
+                arrow1.className = "arrow";
+                arrow1.style.left = "70px";
+                arrow1.style.top = "70px";
+                canvas.appendChild(arrow1);
+                
+                const highlight1 = document.createElement("div");
+                highlight1.className = "highlight";
+                highlight1.style.left = "50px";
+                highlight1.style.top = "30px";
+                highlight1.style.width = "100px";
+                highlight1.style.height = "50px";
+                canvas.appendChild(highlight1);
+                
                 step++;
             }
             
+            // Schritt 2: Text anzeigen und Hinweis hinzufügen
             if (step === 1) {
                 if (!document.getElementById("text3")) {
                     const text2 = document.createElement("div");
@@ -75,6 +106,22 @@
                     text2.innerText = "Steuerhinterziehung ist das bewusste Umgehen oder Verringern von Steuerzahlungen durch falsche Angaben oder das Verschweigen von Einnahmen. Dabei werden Steuern, die eigentlich an den Staat gezahlt werden müssten, absichtlich nicht oder nur teilweise entrichtet. Typische Methoden sind das Verschweigen von Einkommen, das Manipulieren von Bilanzen oder das Nutzen illegaler Steuertricks. Steuerhinterziehung ist in den meisten Ländern strafbar und kann zu hohen Geldstrafen oder sogar Gefängnisstrafen führen.";
                     canvas.appendChild(text2);
                 }
+
+                // Pfeil und Highlight für den nächsten Klickbereich hinzufügen
+                const arrow2 = document.createElement("div");
+                arrow2.className = "arrow";
+                arrow2.style.left = "100px";
+                arrow2.style.top = "130px";
+                canvas.appendChild(arrow2);
+
+                const highlight2 = document.createElement("div");
+                highlight2.className = "highlight";
+                highlight2.style.left = "70px";
+                highlight2.style.top = "100px";
+                highlight2.style.width = "120px";
+                highlight2.style.height = "80px";
+                canvas.appendChild(highlight2);
+
                 step++;
             }
         }
