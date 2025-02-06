@@ -42,13 +42,16 @@
     </div>
 
     <script>
+        let step = 0;
+
         function handleClick(event) {
             const rect = document.getElementById("canvas").getBoundingClientRect();
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
             const canvas = document.getElementById("canvas");
             
-            if (x > 50 && x < 100 && y > 30 && y < 100) {
+            // Ein einfacher Klickbereich, um die Schritte zu aktivieren
+            if (step === 0) {
                 if (!document.getElementById("text2")) {
                     const text1 = document.createElement("div");
                     text1.id = "text2";
@@ -58,9 +61,10 @@
                     text1.innerText = "1. Was ist Steuerhinterziehung?";
                     canvas.appendChild(text1);
                 }
+                step++;
             }
             
-            if (x > 70 && x < 120 && y > 100 && y < 150) {
+            if (step === 1) {
                 if (!document.getElementById("text3")) {
                     const text2 = document.createElement("div");
                     text2.id = "text3";
@@ -71,6 +75,7 @@
                     text2.innerText = "Steuerhinterziehung ist das bewusste Umgehen oder Verringern von Steuerzahlungen durch falsche Angaben oder das Verschweigen von Einnahmen. Dabei werden Steuern, die eigentlich an den Staat gezahlt werden müssten, absichtlich nicht oder nur teilweise entrichtet. Typische Methoden sind das Verschweigen von Einkommen, das Manipulieren von Bilanzen oder das Nutzen illegaler Steuertricks. Steuerhinterziehung ist in den meisten Ländern strafbar und kann zu hohen Geldstrafen oder sogar Gefängnisstrafen führen.";
                     canvas.appendChild(text2);
                 }
+                step++;
             }
         }
     </script>
