@@ -1,9 +1,4 @@
-<html> 
-  <body>
-    <h1>Hallo Finanzamt!</h1>
-    <h1>Hallo Steuerhinterzieher!</h1>
-    <img src="https://raw.githubusercontent.com/ReneBenkoUndDieSteuerttricks/Steuertricks-und-Lifehacks-im-berreich-steuern/refs/heads/main/images%20(1).jfif" width="500"></img>
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -13,6 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: grey;
+            text-align: center;
         }
         #canvas {
             position: relative;
@@ -20,7 +16,7 @@
             height: 500px;
             background: white;
             border: 1px solid black;
-            margin: 20px;
+            margin: 20px auto;
             padding: 10px;
         }
         .text-box {
@@ -29,17 +25,27 @@
             border: 1px solid black;
             padding: 5px;
         }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
+    <h1>Hallo Finanzamt!</h1>
+    <h1>Hallo Steuerhinterzieher!</h1>
+    <img src="https://raw.githubusercontent.com/ReneBenkoUndDieSteuerttricks/Steuertricks-und-Lifehacks-im-berreich-steuern/refs/heads/main/images%20(1).jfif" width="500" alt="Steuertricks">
+    
     <div id="canvas" onclick="handleClick(event)">
         <div id="text1" class="text-box" style="left: 50px; top: 30px;">für die Steuerhinterzieher:</div>
     </div>
 
     <script>
         function handleClick(event) {
-            const x = event.clientX - document.getElementById("canvas").offsetLeft;
-            const y = event.clientY - document.getElementById("canvas").offsetTop;
+            const rect = document.getElementById("canvas").getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
             const canvas = document.getElementById("canvas");
             
             if (x > 50 && x < 100 && y > 30 && y < 100) {
@@ -70,8 +76,3 @@
     </script>
 </body>
 </html>
-</body>
-</html>
-    <body>
-  </html>
-  
