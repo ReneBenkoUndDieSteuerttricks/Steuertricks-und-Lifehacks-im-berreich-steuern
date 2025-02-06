@@ -1,8 +1,69 @@
 <html> 
   <body>
-    <h1>Hello Finanzamt!</h1>
-    <h1>Hello Steuerhinterzieher!</h1>
+    <h1>Hallo Finanzamt!</h1>
+    <h1>Hallo Steuerhinterzieher!</h1>
     <img src="https://raw.githubusercontent.com/ReneBenkoUndDieSteuerttricks/Steuertricks-und-Lifehacks-im-berreich-steuern/refs/heads/main/images%20(1).jfif" width="500"></img>
-  <body>
+  <!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steuerhinterziehung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: grey;
+        }
+        #canvas {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            background: white;
+            border: 1px solid black;
+            margin: 20px;
+            padding: 10px;
+        }
+        .text-box {
+            position: absolute;
+            background: white;
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas" onclick="handleClick(event)">
+        <div class="text-box" style="left: 50px; top: 30px;">für die Steuerhinterzieher:</div>
+    </div>
+
+    <script>
+        function handleClick(event) {
+            const x = event.offsetX;
+            const y = event.offsetY;
+            const canvas = document.getElementById("canvas");
+            
+            if (x > 50 && x < 100 && y > 30 && y < 100) {
+                const text1 = document.createElement("div");
+                text1.className = "text-box";
+                text1.style.left = "70px";
+                text1.style.top = "100px";
+                text1.innerText = "1. Was ist Steuerhinterziehung?";
+                canvas.appendChild(text1);
+            }
+            
+            if (x > 70 && x < 120 && y > 100 && y < 150) {
+                const text2 = document.createElement("div");
+                text2.className = "text-box";
+                text2.style.left = "100px";
+                text2.style.top = "150px";
+                text2.style.width = "300px";
+                text2.innerText = "Steuerhinterziehung ist das bewusste Umgehen oder Verringern von Steuerzahlungen durch falsche Angaben oder das Verschweigen von Einnahmen. Dabei werden Steuern, die eigentlich an den Staat gezahlt werden müssten, absichtlich nicht oder nur teilweise entrichtet. Typische Methoden sind das Verschweigen von Einkommen, das Manipulieren von Bilanzen oder das Nutzen illegaler Steuertricks. Steuerhinterziehung ist in den meisten Ländern strafbar und kann zu hohen Geldstrafen oder sogar Gefängnisstrafen führen.";
+                canvas.appendChild(text2);
+            }
+        }
+    </script>
+</body>
+</html>
+    <body>
   </html>
   
