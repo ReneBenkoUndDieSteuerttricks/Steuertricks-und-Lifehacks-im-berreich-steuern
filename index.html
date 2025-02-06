@@ -24,6 +24,15 @@
             background: white;
             border: 1px solid black;
             padding: 5px;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideIn 1s forwards;
+        }
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
         .arrow {
             position: absolute;
@@ -32,6 +41,7 @@
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
             border-top: 10px solid red;
+            z-index: 10;
         }
         .highlight {
             position: absolute;
@@ -76,7 +86,7 @@
                     canvas.appendChild(text1);
                 }
 
-                // Pfeil und Highlight hinzufügen, um auf den nächsten Klickbereich hinzuweisen
+                // Pfeil immer da lassen
                 const arrow1 = document.createElement("div");
                 arrow1.className = "arrow";
                 arrow1.style.left = "70px";
@@ -107,7 +117,7 @@
                     canvas.appendChild(text2);
                 }
 
-                // Pfeil und Highlight für den nächsten Klickbereich hinzufügen
+                // Pfeil für den nächsten Textbereich hinzufügen
                 const arrow2 = document.createElement("div");
                 arrow2.className = "arrow";
                 arrow2.style.left = "100px";
@@ -121,6 +131,25 @@
                 highlight2.style.width = "120px";
                 highlight2.style.height = "80px";
                 canvas.appendChild(highlight2);
+
+                step++;
+            }
+
+            // Schritt 3: Text anzeigen, wenn der zweite Text geklickt wird
+            if (step === 2) {
+                // Gelbes Highlight entfernen
+                const highlightElements = document.querySelectorAll('.highlight');
+                highlightElements.forEach(element => {
+                    element.remove();
+                });
+
+                const text3 = document.createElement("div");
+                text3.className = "text-box";
+                text3.style.left = "100px";
+                text3.style.top = "250px";
+                text3.style.width = "300px";
+                text3.innerText = "Die strafrechtlichen Konsequenzen einer Steuerhinterziehung können ernst sein und umfassen Geldstrafen oder sogar Freiheitsstrafen, abhängig von der Schwere der Tat.";
+                canvas.appendChild(text3);
 
                 step++;
             }
