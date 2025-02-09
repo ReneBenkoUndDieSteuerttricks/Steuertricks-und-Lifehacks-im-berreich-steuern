@@ -1,187 +1,264 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steuerhinterziehung</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: grey;
-            text-align: center;
-        }
-        #canvas {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            background: white;
-            border: 1px solid black;
-            margin: 20px auto;
-            padding: 10px;
-        }
-        .text-box {
-            position: absolute;
-            background: white;
-            border: 1px solid black;
-            padding: 5px;
-            opacity: 0;
-            transform: translateX(-50px);
-            animation: slideIn 1s forwards;
-        }
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        @keyframes slideOut {
-            to {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-        }
-        .arrow {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 10px solid red;
-            cursor: pointer;
-            z-index: 10;
-        }
-        .highlight {
-            position: absolute;
-            border: 2px solid yellow;
-            padding: 5px;
-            box-sizing: border-box;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Hallo Finanzamt!</h1>
-    <h1>Hallo Steuerhinterzieher!</h1>
-    <img src="https://raw.githubusercontent.com/ReneBenkoUndDieSteuerttricks/Steuertricks-und-Lifehacks-im-berreich-steuern/refs/heads/main/images%20(1).jfif" width="500" alt="Steuertricks">
-    
-    <div id="canvas" onclick="handleClick(event)">
-        <div id="text1" class="text-box" style="left: 50px; top: 30px;">für die Steuerhinterzieher:</div>
-    </div>
-
-    <script>
-        let step = 0;
-
-        function handleClick(event) {
-            const rect = document.getElementById("canvas").getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-            const canvas = document.getElementById("canvas");
-            
-            // Schritt 1: Text anzeigen und Hinweis hinzufügen
-            if (step === 0) {
-                if (!document.getElementById("text2")) {
-                    const text1 = document.createElement("div");
-                    text1.id = "text2";
-                    text1.className = "text-box";
-                    text1.style.left = "70px";
-                    text1.style.top = "100px";
-                    text1.innerText = "1. Was ist Steuerhinterziehung?";
-                    canvas.appendChild(text1);
-                }
-
-                // Pfeil immer da lassen
-                const arrow1 = document.createElement("div");
-                arrow1.className = "arrow";
-                arrow1.style.left = "70px";
-                arrow1.style.top = "70px";
-                arrow1.onclick = () => handleArrowClick('text2'); // Event-Listener zum Pfeil hinzufügen
-                canvas.appendChild(arrow1);
-                
-                const highlight1 = document.createElement("div");
-                highlight1.className = "highlight";
-                highlight1.style.left = "50px";
-                highlight1.style.top = "30px";
-                highlight1.style.width = "100px";
-                highlight1.style.height = "50px";
-                canvas.appendChild(highlight1);
-                
-                step++;
-            }
-            
-            // Schritt 2: Text anzeigen und Hinweis hinzufügen
-            if (step === 1) {
-                if (!document.getElementById("text3")) {
-                    const text2 = document.createElement("div");
-                    text2.id = "text3";
-                    text2.className = "text-box";
-                    text2.style.left = "100px";
-                    text2.style.top = "150px";
-                    text2.style.width = "300px";
-                    text2.innerText = "Steuerhinterziehung ist das bewusste Umgehen oder Verringern von Steuerzahlungen durch falsche Angaben oder das Verschweigen von Einnahmen. Dabei werden Steuern, die eigentlich an den Staat gezahlt werden müssten, absichtlich nicht oder nur teilweise entrichtet. Typische Methoden sind das Verschweigen von Einkommen, das Manipulieren von Bilanzen oder das Nutzen illegaler Steuertricks. Steuerhinterziehung ist in den meisten Ländern strafbar und kann zu hohen Geldstrafen oder sogar Gefängnisstrafen führen.";
-                    canvas.appendChild(text2);
-                }
-
-                // Pfeil für den nächsten Textbereich hinzufügen
-                const arrow2 = document.createElement("div");
-                arrow2.className = "arrow";
-                arrow2.style.left = "100px";
-                arrow2.style.top = "130px";
-                arrow2.onclick = () => handleArrowClick('text3'); // Event-Listener zum Pfeil hinzufügen
-                canvas.appendChild(arrow2);
-
-                const highlight2 = document.createElement("div");
-                highlight2.className = "highlight";
-                highlight2.style.left = "70px";
-                highlight2.style.top = "100px";
-                highlight2.style.width = "120px";
-                highlight2.style.height = "80px";
-                canvas.appendChild(highlight2);
-
-                step++;
-            }
-
-            // Schritt 3: Text anzeigen, wenn der zweite Text geklickt wird
-            if (step === 2) {
-                // Gelbes Highlight entfernen
-                const highlightElements = document.querySelectorAll('.highlight');
-                highlightElements.forEach(element => {
-                    element.remove();
-                });
-
-                const text3 = document.createElement("div");
-                text3.id = "text4";
-                text3.className = "text-box";
-                text3.style.left = "100px";
-                text3.style.top = "250px";
-                text3.style.width = "300px";
-                text3.innerText = "Die strafrechtlichen Konsequenzen einer Steuerhinterziehung können ernst sein und umfassen Geldstrafen oder sogar Freiheitsstrafen, abhängig von der Schwere der Tat.";
-                canvas.appendChild(text3);
-
-                step++;
-            }
-        }
-
-        // Funktion zum Zurückfahren der Texte
-        function handleArrowClick(textId) {
-            const textElement = document.getElementById(textId);
-            textElement.style.animation = 'slideOut 1s forwards'; // Text nach rechts verschwinden lassen
-            
-            // Optional: Pfeil und Highlight entfernen
-            const arrowElements = document.querySelectorAll(`.arrow`);
-            arrowElements.forEach(arrow => {
-                arrow.remove();
-            });
-            
-            // Optional: Nächsten Schritt zurücksetzen, um den Text wieder erscheinen zu lassen
-            setTimeout(() => {
-                textElement.remove(); // Entfernt den Text aus dem Canvas
-                step--; // Geht einen Schritt zurück
-            }, 1000); // Nach der Animationszeit (1 Sekunde)
-        }
-    </script>
-</body>
-</html>
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
+  <channel>
+    <language>de-DE</language>
+    <title>Majestic Role Play Forum</title>
+    <description>Majestic RP Forum</description>
+    <pubDate>Sun, 09 Feb 2025 14:55:59 +0000</pubDate>
+    <lastBuildDate>Sun, 09 Feb 2025 14:55:59 +0000</lastBuildDate>
+    <generator>Majestic Role Play Forum</generator>
+    <link>https://forum.gta5majestic.com/</link>
+    <atom:link rel="self" type="application/rss+xml" href="https://forum.gta5majestic.com/forums/-/index.rss"/>
+    <item>
+      <title>RDM</title>
+      <pubDate>Sun, 09 Feb 2025 14:55:57 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/rdm.171400/</link>
+      <guid isPermaLink="false">171400</guid>
+      <author>invalid@example.com (camil)</author>
+      <category domain="https://forum.gta5majestic.com/forums/skargi-na-graczy.63/"><![CDATA[Skargi na graczy]]></category>
+      <dc:creator>camil</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Przejeżdżając przez kwadraciak dwa osobniki postanowiły poddawać a gdy im to nie wychodziło zaczęły robić RDM.</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Szadej</title>
+      <pubDate>Sun, 09 Feb 2025 14:54:21 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/szadej.171399/</link>
+      <guid isPermaLink="false">171399</guid>
+      <author>invalid@example.com (Playboi)</author>
+      <category domain="https://forum.gta5majestic.com/forums/skargi-na-administratorow.65/"><![CDATA[Skargi na administratorów]]></category>
+      <dc:creator>Playboi</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Witam, wrzuciłem filmik, w którym byłem VDM dla specjalnej broni. Administrator dał graczowi VDM, ale moim zdaniem jest to wersja 7.4.1. Byłbym bardzo szczęśliwy, gdybym odzyskał moją specjalną broń</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>VDM</title>
+      <pubDate>Sun, 09 Feb 2025 14:51:58 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/vdm.171398/</link>
+      <guid isPermaLink="false">171398</guid>
+      <author>invalid@example.com (Michal1209)</author>
+      <category domain="https://forum.gta5majestic.com/forums/skargi-na-graczy.63/"><![CDATA[Skargi na graczy]]></category>
+      <dc:creator>Michal1209</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">VDM</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>rdm</title>
+      <pubDate>Sun, 09 Feb 2025 14:48:38 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/rdm.171397/</link>
+      <guid isPermaLink="false">171397</guid>
+      <author>invalid@example.com (kacper_7374365)</author>
+      <category domain="https://forum.gta5majestic.com/forums/skargi-na-graczy.63/"><![CDATA[Skargi na graczy]]></category>
+      <dc:creator>kacper_7374365</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">rdm</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Auto ins Wasser gerammt</title>
+      <pubDate>Sun, 09 Feb 2025 14:46:18 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/auto-ins-wasser-gerammt.171396/</link>
+      <guid isPermaLink="false">171396</guid>
+      <author>invalid@example.com (Adam-Garmadon)</author>
+      <category domain="https://forum.gta5majestic.com/forums/beschwerden-uber-spieler.88/"><![CDATA[Beschwerden über Spieler]]></category>
+      <dc:creator>Adam-Garmadon</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Einer von den Bloods hat mein Auto ohne Grund ins Wasser gerammt</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Rdm</title>
+      <pubDate>Sun, 09 Feb 2025 14:42:18 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/rdm.171395/</link>
+      <guid isPermaLink="false">171395</guid>
+      <author>invalid@example.com (Elias Krul)</author>
+      <category domain="https://forum.gta5majestic.com/forums/skargi-na-graczy.63/"><![CDATA[Skargi na graczy]]></category>
+      <dc:creator>Elias Krul</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Witam gracze robią rdm</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>CL</title>
+      <pubDate>Sun, 09 Feb 2025 14:40:46 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/cl.171394/</link>
+      <guid isPermaLink="false">171394</guid>
+      <author>invalid@example.com (xCarIo)</author>
+      <category domain="https://forum.gta5majestic.com/forums/beschwerden-uber-spieler.88/"><![CDATA[Beschwerden über Spieler]]></category>
+      <dc:creator>xCarIo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Als ich ums PD gefahren bin habe ich gesehen, dass mein Kollege auf eine Person schießt also habe ich geholfen, als ich de Person Außer gefecht gesetzt haben hat sie sich ausgeloggt.<br />
+<br />
+Bei Sekunde 0:23 sieht man die ID des Spielers.</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Enntbannungs Antrag</title>
+      <pubDate>Sun, 09 Feb 2025 14:37:13 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/enntbannungs-antrag.171393/</link>
+      <guid isPermaLink="false">171393</guid>
+      <author>invalid@example.com (Max Batal)</author>
+      <category domain="https://forum.gta5majestic.com/forums/entbannungsantrage.83/"><![CDATA[Entbannungsanträge]]></category>
+      <dc:creator>Max Batal</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Oxford!<br />
+Ich wurde vor 3 oder 4 wochen von Majestic für Scamming gebannt. In der Zeit habe ich mein Verhalten Mehrmals Überdacht und kam jedes mal zu dem Schluss das ich einen Fehler Gemacht habe.<br />
+Scamming ist nicht in Ordnung und Unfair gegenüber denen die sich die Gegenstände erarbeitet haben bzw. Gezogen haben.<br />
+Ich bitte dich Meinen Antrag Anzunehmen ich werde niemanden mehr Scammen und werde in Zukunft probieren mich Best Möglich an die Regeln zu Halten.<br />
+<br />
+MfG Beetle.</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Skarga Nett-0554</title>
+      <pubDate>Sun, 09 Feb 2025 14:34:03 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/skarga-nett-0554.170901/</link>
+      <guid isPermaLink="false">170901</guid>
+      <author>invalid@example.com (Kanar)</author>
+      <category domain="https://forum.gta5majestic.com/forums/archiwum.70/"><![CDATA[Archiwum]]></category>
+      <dc:creator>Kanar</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">dc: dzebediso</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>zmiana na jalia</title>
+      <pubDate>Sun, 09 Feb 2025 14:33:35 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/zmiana-na-jalia.171392/</link>
+      <guid isPermaLink="false">171392</guid>
+      <author>invalid@example.com (mlody2115)</author>
+      <category domain="https://forum.gta5majestic.com/forums/wnioski-o-unban.56/"><![CDATA[Wnioski o unban]]></category>
+      <dc:creator>mlody2115</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">witam moglbym prosic o zmiane bana na jalia</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>zmiana na jaila</title>
+      <pubDate>Sun, 09 Feb 2025 14:32:01 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/zmiana-na-jaila.171386/</link>
+      <guid isPermaLink="false">171386</guid>
+      <author>invalid@example.com (gracha)</author>
+      <category domain="https://forum.gta5majestic.com/forums/wnioski-o-unban.56/"><![CDATA[Wnioski o unban]]></category>
+      <dc:creator>gracha</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">zmiana na jaila</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Beschwerde Noxii - 0636</title>
+      <pubDate>Sun, 09 Feb 2025 14:31:13 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/beschwerde-noxii-0636.171388/</link>
+      <guid isPermaLink="false">171388</guid>
+      <author>invalid@example.com (skibid forum golem)</author>
+      <category domain="https://forum.gta5majestic.com/forums/archiv.91/"><![CDATA[Archiv]]></category>
+      <dc:creator>skibid forum golem</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">schützt leben nicht</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Nett</title>
+      <pubDate>Sun, 09 Feb 2025 14:30:24 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/nett.171391/</link>
+      <guid isPermaLink="false">171391</guid>
+      <author>invalid@example.com (patriko)</author>
+      <category domain="https://forum.gta5majestic.com/forums/skargi-na-administratorow.65/"><![CDATA[Skargi na administratorów]]></category>
+      <dc:creator>patriko</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Nett zle rozpatrzył skarge nagranie jest od początku akcji</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Flippi</title>
+      <pubDate>Sun, 09 Feb 2025 14:29:15 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/flippi.171351/</link>
+      <guid isPermaLink="false">171351</guid>
+      <author>invalid@example.com (Kunu)</author>
+      <category domain="https://forum.gta5majestic.com/forums/beschwerden-uber-admins.90/"><![CDATA[Beschwerden über Admins]]></category>
+      <dc:creator>Kunu</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Grüße ich wurde heute von Flippi weggejailt darauf hin fragte ich im ticket was da los ist warum, er geht lieber mal ne Runde fortnite spielen.<br />
+ich habe ohne Grund NRP bekommen und weiß nicht mal warum und wann das war.</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Beschwerde Noxii - 0635</title>
+      <pubDate>Sun, 09 Feb 2025 14:28:40 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/beschwerde-noxii-0635.171382/</link>
+      <guid isPermaLink="false">171382</guid>
+      <author>invalid@example.com (Rainer Lotze)</author>
+      <category domain="https://forum.gta5majestic.com/forums/archiv.91/"><![CDATA[Archiv]]></category>
+      <dc:creator>Rainer Lotze</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><div class="bbMediaWrapper" data-media-site-id="youtube" data-media-key="VwDFEgE7d8g">
+	<div class="bbMediaWrapper-inner">
+		<iframe src="https://www.youtube.com/embed/VwDFEgE7d8g?wmode=opaque"
+				loading="lazy"
+				width="560" height="315"
+				frameborder="0" allowfullscreen="true"></iframe>
+	</div>
+</div></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>SWAP marksman mk2</title>
+      <pubDate>Sun, 09 Feb 2025 14:28:04 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/swap-marksman-mk2.171390/</link>
+      <guid isPermaLink="false">171390</guid>
+      <author>invalid@example.com (MrPozioma)</author>
+      <category domain="https://forum.gta5majestic.com/forums/skargi-na-graczy.63/"><![CDATA[Skargi na graczy]]></category>
+      <dc:creator>MrPozioma</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Witam proszę o zwrot broni specjalnej dc: poteznapozioma.</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Beschwerde Noxii - 0634</title>
+      <pubDate>Sun, 09 Feb 2025 14:26:28 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/beschwerde-noxii-0634.171309/</link>
+      <guid isPermaLink="false">171309</guid>
+      <author>invalid@example.com (hixar)</author>
+      <category domain="https://forum.gta5majestic.com/forums/archiv.91/"><![CDATA[Archiv]]></category>
+      <dc:creator>hixar</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Allg 7.4.1</div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Cheater</title>
+      <pubDate>Sun, 09 Feb 2025 14:25:16 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/cheater.171389/</link>
+      <guid isPermaLink="false">171389</guid>
+      <author>invalid@example.com (Krasiik)</author>
+      <category domain="https://forum.gta5majestic.com/forums/skargi-na-graczy.63/"><![CDATA[Skargi na graczy]]></category>
+      <dc:creator>Krasiik</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">.</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Rdm</title>
+      <pubDate>Sun, 09 Feb 2025 14:24:16 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/rdm.171387/</link>
+      <guid isPermaLink="false">171387</guid>
+      <author>invalid@example.com (Elias Krul)</author>
+      <category domain="https://forum.gta5majestic.com/forums/skargi-na-graczy.63/"><![CDATA[Skargi na graczy]]></category>
+      <dc:creator>Elias Krul</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Witam gracz robi rdma</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Warehousing in der Familie</title>
+      <pubDate>Sun, 09 Feb 2025 14:22:37 +0000</pubDate>
+      <link>https://forum.gta5majestic.com/threads/warehousing-in-der-familie.171380/</link>
+      <guid isPermaLink="false">171380</guid>
+      <author>invalid@example.com (Noah Peteani)</author>
+      <category domain="https://forum.gta5majestic.com/forums/beschwerden-uber-spieler.88/"><![CDATA[Beschwerden über Spieler]]></category>
+      <dc:creator>Noah Peteani</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><ol>
+<li data-xf-list-type="ol"><b>Character Nickname: Noah DiCarlo</b></li>
+<li data-xf-list-type="ol"><b>Time and Date of the Incident:14:30 07.02.25</b></li>
+<li data-xf-list-type="ol"><b>Full Description of the Issue: Er hat sich 270000 Dollar aus der Familien Kasse genommen ohne es mit dem Leader zu besprechen.</b></li>
+<li data-xf-list-type="ol"><b>Evidence:<div class="bbMediaWrapper" data-media-site-id="youtube" data-media-key="a3v6kyA0tGE">
+	<div class="bbMediaWrapper-inner">
+		<iframe src="https://www.youtube.com/embed/a3v6kyA0tGE?wmode=opaque"
+				loading="lazy"
+				width="560" height="315"
+				frameborder="0" allowfullscreen="true"></iframe>
+	</div>
+</div></b></li>
+<li data-xf-list-type="ol"><b>Timestamp: Ich weiß nicht genau was ich hier machen sollte</b></li>
+<li data-xf-list-type="ol"><b>Your Server: Berlin DE 1 </b></li>
+<li data-xf-list-type="ol"><b>Your Static ID: 33099</b></li>
+<li data-xf-list-type="ol"><b>Your Discord (optional):</b></li>
+</ol></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+  </channel>
+</rss>
