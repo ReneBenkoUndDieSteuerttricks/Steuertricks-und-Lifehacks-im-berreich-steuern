@@ -1,71 +1,154 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2D Jump & Run</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-    <script type="module">
-        let player;
-        let velocityY = 0;
-        let isJumping = false;
-        let platforms = [];
-        let tunnel;
+<script>
+    
+let playerY = 50;
+let playerX = 250;
+let velocity = 0;
+let gravity = 0.5;
+let jumpPower = -10;
+let speed = 5;
+let onGround = false;
+let offsetX = 0;
+let level = 1;
+let gameState = "menu";
+let settings = { volume: 50 };
 
-        function setup() {
-            createCanvas(windowWidth, windowHeight);
-            player = createVector(100, height - 50);
-            for (let i = 0; i < 5; i++) {
-                platforms.push(createVector(i * 150 + 100, height - (i + 1) * 100));
-            }
-            tunnel = createVector(width - 100, height - 150);
-        }
+let platforms = [];
+let goal = { x: 0, y: 0, w: 50, h: 50 };
 
-        function draw() {
-            background(200);
-            
-            fill(255, 0, 0);
-            ellipse(player.x, player.y, 30, 30);
+function setup() {
+    createCanvas(500, 500);
+    generateLevel(level);
+}
 
-            fill(0, 255, 0);
-            platforms.forEach(p => {
-                rect(p.x, p.y, 100, 10);
-            });
+function draw() {
+    background("lightblue");
+    
+    if (gameState === "menu") {
+        drawMenu();
+    } else if (gameState === "playing") {
+        updateGame();
+        drawGame();
+    } else if (gameState === "levelCompleted") {
+        drawLevelCompleted();
+    } else if (gameState === "settings") {
+        drawSettings();
+    } else if (gameState === "levelSelection") {
+        drawLevelSelection();
+    }
+}
 
-            fill(0, 0, 255);
-            rect(tunnel.x, tunnel.y, 50, 50);
+function drawMenu() {
+    fill("yellow");
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("Jump 'n' Run", width / 2, height / 4);
+    textSize(24);
+    text("1 - Spielen", width / 2, height / 2 - 30);
+    text("2 - Level", width / 2, height / 2);
+    text("3 - Einstellungen", width / 2, height / 2 + 30);
+}
 
-            velocityY += 0.5;
-            player.y += velocityY;
+function drawSettings() {
+    fill("green");
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("Einstellungen", width / 2, height / 4);
+    textSize(24);
+    text("Lautstärke: " + settings.volume, width / 2, height / 2);
+    text("1 - Erhöhen", width / 2, height / 2 + 30);
+    text("2 - Verringern", width / 2, height / 2 + 60);
+    text("3 - Zurück", width / 2, height / 2 + 90);
+}
 
-            platforms.forEach(p => {
-                if (player.y >= p.y - 15 && player.y <= p.y && player.x > p.x - 15 && player.x < p.x + 100) {
-                    player.y = p.y - 15;
-                    velocityY = 0;
-                    isJumping = false;
-                }
-            });
+function drawLevelSelection() {
+    fill("orange");
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("Level Auswahl", width / 2, height / 4);
+    for (let i = 1; i <= 5; i++) {
+        text(`Level ${i}`, width / 2, height / 2 + i * 30 - 60);
+    }
+    text("Drücke eine Nummer um ein Level zu wählen", width / 2, height - 50);
+}
 
-            if (dist(player.x, player.y, tunnel.x + 25, tunnel.y + 25) < 30) {
-                alert("Level geschafft!");
-                player.set(100, height - 50);
-            }
-        }
+function drawLevelCompleted() {
+    fill("purple");
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("Level abgeschlossen!", width / 2, height / 4);
+    textSize(24);
+    text("1 - Nächstes Level", width / 2, height / 2 - 30);
+    text("2 - Wiederholen", width / 2, height / 2);
+    text("3 - Hauptmenü", width / 2, height / 2 + 30);
+}
 
-        function keyPressed() {
-            if (keyCode === 32 && !isJumping) {
-                velocityY = -10;
-                isJumping = true;
-            }
-            if (keyCode === RIGHT_ARROW) {
-                player.x += 10;
-            }
-            if (keyCode === LEFT_ARROW) {
-                player.x -= 10;
-            }
-        }
-    </script>
-</head>
-<body>
-</body>
-</html>
+function keyPressed() {
+    if (gameState === "menu") {
+        if (key === '1') startGame(1);
+        if (key === '2') gameState = "levelSelection";
+        if (key === '3') gameState = "settings";
+    } else if (gameState === "levelCompleted") {
+        if (key === '1') startGame(level + 1);
+        if (key === '2') startGame(level);
+        if (key === '3') gameState = "menu";
+    } else if (gameState === "settings") {
+        if (key === '1') settings.volume = Math.min(settings.volume + 10, 100);
+        if (key === '2') settings.volume = Math.max(settings.volume - 10, 0);
+        if (key === '3') gameState = "menu";
+    }
+}
+
+function startGame(selectedLevel) {
+    level = selectedLevel;
+    gameState = "playing";
+    generateLevel(level);
+}
+
+function generateLevel(level) {
+    offsetX = 0;
+    playerX = 250;
+    playerY = 50;
+    velocity = 0;
+    platforms = [];
+    let prevX = 0;
+    let prevY = 450;
+    
+    for (let i = 0; i < 6; i++) {
+        let x = prevX + random(150, 250);
+        let y = prevY - random(50, 100);
+        platforms.push({ x, y, w: 150, h: 10 });
+        prevX = x;
+        prevY = y;
+    }
+    goal = { x: prevX + 200, y: prevY - 50, w: 50, h: 50 };
+}
+
+function updateGame() {
+    velocity += gravity;
+    playerY += velocity;
+    onGround = false;
+    
+    if (keyIsPressed) {
+        if (key === 'a') playerX -= speed;
+        if (key === 'd') playerX += speed;
+        if ((key === ' ' || key === 'w') && onGround) velocity = jumpPower;
+    }
+    
+    if (playerY > height) {
+        startGame(level);
+    }
+}
+
+function drawGame() {
+    fill("blue");
+    ellipse(playerX, playerY, 50, 50);
+    
+    fill("red");
+    for (let platform of platforms) {
+        rect(platform.x + offsetX, platform.y, platform.w, platform.h);
+    }
+    
+    fill("gold");
+    rect(goal.x + offsetX, goal.y, goal.w, goal.h);
+}
+</script>
