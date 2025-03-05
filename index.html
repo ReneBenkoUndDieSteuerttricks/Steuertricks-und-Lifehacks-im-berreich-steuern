@@ -22,13 +22,13 @@
             overflow: hidden;
             position: relative;
         }
-        video {
+        #video-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            border: none;
             z-index: -1;
         }
         .content {
@@ -47,35 +47,22 @@
         a:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background: #ff4757;
-            color: white;
-        }
     </style>
 </head>
 <body>
-    <video autoplay loop muted>
-        <source src="https://www.youtube.com/embed/nm3A6Qef-3c?autoplay=1&mute=1&loop=1" type="video/mp4">
-    </video>
+    <iframe id="video-bg" src="https://www.youtube.com/embed/nm3A6Qef-3c?autoplay=1&loop=1&playlist=nm3A6Qef-3c" allowfullscreen></iframe>
     <div class="content">
         <h1>Felix's Social Media</h1>
         <a href="https://www.instagram.com/felix.asn/" target="_blank">Instagram</a>
         <a href="https://www.tiktok.com/@felix_25_08_2010" target="_blank">TikTok</a>
         <p>Valorant: Lyriic99#1mmo</p>
-        <button onclick="playSound()">🎵 Musik starten</button>
     </div>
-    <audio id="bg-music" src="https://www.youtube.com/watch?v=nm3A6Qef-3c"></audio>
     <script>
-        function playSound() {
-            const audio = document.getElementById("bg-music");
+        window.addEventListener("DOMContentLoaded", () => {
+            const audio = new Audio("https://www.youtube.com/watch?v=nm3A6Qef-3c");
+            audio.loop = true;
             audio.play();
-        }
+        });
     </script>
 </body>
 </html>
