@@ -1,154 +1,81 @@
-<script>
-    
-let playerY = 50;
-let playerX = 250;
-let velocity = 0;
-let gravity = 0.5;
-let jumpPower = -10;
-let speed = 5;
-let onGround = false;
-let offsetX = 0;
-let level = 1;
-let gameState = "menu";
-let settings = { volume: 50 };
-
-let platforms = [];
-let goal = { x: 0, y: 0, w: 50, h: 50 };
-
-function setup() {
-    createCanvas(500, 500);
-    generateLevel(level);
-}
-
-function draw() {
-    background("lightblue");
-    
-    if (gameState === "menu") {
-        drawMenu();
-    } else if (gameState === "playing") {
-        updateGame();
-        drawGame();
-    } else if (gameState === "levelCompleted") {
-        drawLevelCompleted();
-    } else if (gameState === "settings") {
-        drawSettings();
-    } else if (gameState === "levelSelection") {
-        drawLevelSelection();
-    }
-}
-
-function drawMenu() {
-    fill("yellow");
-    textSize(32);
-    textAlign(CENTER, CENTER);
-    text("Jump 'n' Run", width / 2, height / 4);
-    textSize(24);
-    text("1 - Spielen", width / 2, height / 2 - 30);
-    text("2 - Level", width / 2, height / 2);
-    text("3 - Einstellungen", width / 2, height / 2 + 30);
-}
-
-function drawSettings() {
-    fill("green");
-    textSize(32);
-    textAlign(CENTER, CENTER);
-    text("Einstellungen", width / 2, height / 4);
-    textSize(24);
-    text("Lautstärke: " + settings.volume, width / 2, height / 2);
-    text("1 - Erhöhen", width / 2, height / 2 + 30);
-    text("2 - Verringern", width / 2, height / 2 + 60);
-    text("3 - Zurück", width / 2, height / 2 + 90);
-}
-
-function drawLevelSelection() {
-    fill("orange");
-    textSize(32);
-    textAlign(CENTER, CENTER);
-    text("Level Auswahl", width / 2, height / 4);
-    for (let i = 1; i <= 5; i++) {
-        text(`Level ${i}`, width / 2, height / 2 + i * 30 - 60);
-    }
-    text("Drücke eine Nummer um ein Level zu wählen", width / 2, height - 50);
-}
-
-function drawLevelCompleted() {
-    fill("purple");
-    textSize(32);
-    textAlign(CENTER, CENTER);
-    text("Level abgeschlossen!", width / 2, height / 4);
-    textSize(24);
-    text("1 - Nächstes Level", width / 2, height / 2 - 30);
-    text("2 - Wiederholen", width / 2, height / 2);
-    text("3 - Hauptmenü", width / 2, height / 2 + 30);
-}
-
-function keyPressed() {
-    if (gameState === "menu") {
-        if (key === '1') startGame(1);
-        if (key === '2') gameState = "levelSelection";
-        if (key === '3') gameState = "settings";
-    } else if (gameState === "levelCompleted") {
-        if (key === '1') startGame(level + 1);
-        if (key === '2') startGame(level);
-        if (key === '3') gameState = "menu";
-    } else if (gameState === "settings") {
-        if (key === '1') settings.volume = Math.min(settings.volume + 10, 100);
-        if (key === '2') settings.volume = Math.max(settings.volume - 10, 0);
-        if (key === '3') gameState = "menu";
-    }
-}
-
-function startGame(selectedLevel) {
-    level = selectedLevel;
-    gameState = "playing";
-    generateLevel(level);
-}
-
-function generateLevel(level) {
-    offsetX = 0;
-    playerX = 250;
-    playerY = 50;
-    velocity = 0;
-    platforms = [];
-    let prevX = 0;
-    let prevY = 450;
-    
-    for (let i = 0; i < 6; i++) {
-        let x = prevX + random(150, 250);
-        let y = prevY - random(50, 100);
-        platforms.push({ x, y, w: 150, h: 10 });
-        prevX = x;
-        prevY = y;
-    }
-    goal = { x: prevX + 200, y: prevY - 50, w: 50, h: 50 };
-}
-
-function updateGame() {
-    velocity += gravity;
-    playerY += velocity;
-    onGround = false;
-    
-    if (keyIsPressed) {
-        if (key === 'a') playerX -= speed;
-        if (key === 'd') playerX += speed;
-        if ((key === ' ' || key === 'w') && onGround) velocity = jumpPower;
-    }
-    
-    if (playerY > height) {
-        startGame(level);
-    }
-}
-
-function drawGame() {
-    fill("blue");
-    ellipse(playerX, playerY, 50, 50);
-    
-    fill("red");
-    for (let platform of platforms) {
-        rect(platform.x + offsetX, platform.y, platform.w, platform.h);
-    }
-    
-    fill("gold");
-    rect(goal.x + offsetX, goal.y, goal.w, goal.h);
-}
-</script>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felix's Social Media</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .content {
+            z-index: 1;
+        }
+        a {
+            display: block;
+            margin: 10px;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #ff4757;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay loop muted>
+        <source src="https://www.youtube.com/embed/nm3A6Qef-3c?autoplay=1&mute=1&loop=1" type="video/mp4">
+    </video>
+    <div class="content">
+        <h1>Felix's Social Media</h1>
+        <a href="https://www.instagram.com/felix.asn/" target="_blank">Instagram</a>
+        <a href="https://www.tiktok.com/@felix_25_08_2010" target="_blank">TikTok</a>
+        <p>Valorant: Lyriic99#1mmo</p>
+        <button onclick="playSound()">🎵 Musik starten</button>
+    </div>
+    <audio id="bg-music" src="https://www.youtube.com/watch?v=nm3A6Qef-3c"></audio>
+    <script>
+        function playSound() {
+            const audio = document.getElementById("bg-music");
+            audio.play();
+        }
+    </script>
+</body>
+</html>
