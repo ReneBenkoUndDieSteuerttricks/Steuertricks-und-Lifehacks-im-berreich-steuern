@@ -28,9 +28,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border: none;
+            object-fit: cover;
             z-index: -1;
-            pointer-events: none;
         }
         .content {
             z-index: 1;
@@ -51,7 +50,10 @@
     </style>
 </head>
 <body>
-    <iframe id="video-bg" src="https://www.youtube.com/embed/nm3A6Qef-3c?autoplay=1&loop=1&playlist=nm3A6Qef-3c&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&rel=0" allowfullscreen></iframe>
+    <video id="video-bg" autoplay loop muted>
+        <source src="https://www.videvo.net/videvo_files/converted/2016_10/preview/160429_004_WashingtonDC_1080p.mp441731.webm" type="video/webm">
+        Dein Browser unterstützt kein HTML5-Video.
+    </video>
     <div class="content">
         <h1>Felix's Social Media</h1>
         <a href="https://www.instagram.com/felix.asn/" target="_blank">Instagram</a>
@@ -62,7 +64,7 @@
         window.addEventListener("DOMContentLoaded", () => {
             const audio = new Audio("https://www.youtube.com/watch?v=nm3A6Qef-3c");
             audio.loop = true;
-            audio.play();
+            audio.play().catch(error => console.log("Autoplay blockiert: " + error));
         });
     </script>
 </body>
